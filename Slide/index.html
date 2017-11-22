@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>无缝轮播</title>
+    <!--<style>-->
+        <!--#slide1{-->
+            <!--overflow: hidden;-->
+            <!--position: relative;-->
+        <!--}-->
+    <!--</style>-->
+    <link rel="stylesheet" href="./slide.css">
+    <script src="./slide.js"></script>
+</head>
+<body>
+<div id="slide"></div>
+<!--<div id="slide1"></div>-->
+</body>
+<script>
+    var config = {
+        container:"slide",
+        width:"600px",
+        height:"350px",
+        img_src:[
+            "./img/img1.jpg",
+            "./img/img2.jpg",
+            "./img/img3.jpg",
+            "./img/img4.jpg",
+            "./img/img1.jpg"
+        ]
+    };
+    new Slide(config);
+
+//    var config1 = {
+//        container:"slide1",
+//        width:"600px",
+//        height:"350px",
+//        img_src:[
+//            "./img/img1.jpg",
+//            "./img/img2.jpg",
+//            "./img/img3.jpg",
+//            "./img/img4.jpg",
+//            "./img/img1.jpg"
+//        ]
+//    };
+//    new Slide(config1);
+</script>
+</html>

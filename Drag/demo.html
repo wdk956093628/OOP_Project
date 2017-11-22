@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拖拽</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body >
+<div id="box1">我是第二个</div>
+<div id="box">我是第一个</div>
+</body>
+<script>
+    ;(function (win) {
+        function Drag(cfg){
+            this.config = cfg;
+            this.obj=document.getElementById(this.config.dom);
+            this.structure();
+            this.bindEv();
+            this.disX=0;
+            this.disY=0;
+        }
+        Drag.prototype = {
+            constructor:Drag,
+            structure:function(){
+                this.obj.style.width = this.config.width;
+                this.obj.style.height = this.config.height;
+                this.obj.style.backgroundColor = this.config.background;
+                this.obj.style.position = "absolute";
+                this.obj.style.cursor = "pointer";
+            },
+            bindEv:function () {
+                var that=this;
+                this.obj.onmousedown=function(e){
+                    e = event || window.event ;
+                    that.fnDown(e);
+                }
+            },
+
+            fnDown:function(e){
+                var that=this;
+                var event=e||event;
+                this.disX=event.clientX-this.obj.offsetLeft;
+                this.disY=event.clientY-this.obj.offsetTop;
+                document.onmousemove=function(e){
+                    that.fnMove(e);
+                    return false;
+                };
+                document.onmouseup=function(){
+                    that.fnUp();
+                }
+            },
+
+            fnMove:function(e){
+                var event=e||event;
+                var left=event.clientX-this.disX;
+                var top=event.clientY-this.disY;
+                this.obj.style.left = left + 'px';
+                this.obj.style.top = top + 'px';
+                console.log(top);
+                console.log(left);
+            },
+
+            fnUp:function(){
+                document.onmousedown=null;
+                document.onmousemove=null;
+            }
+        };
+
+        function LimitDrag(id) {
+            console.log(id);
+            Drag.call(this,id);     //  继承属性
+        }
+        for(var i in Drag.prototype) {
+            LimitDrag.prototype[i]=Drag.prototype[i];//继承方法
+        }
+        console.log(LimitDrag.prototype);
+        LimitDrag.prototype.fnMove =function(e){
+            var event=e||event;
+            var left=event.clientX-this.disX;
+            var top=event.clientY-this.disY;
+            var maxL = document.documentElement.clientWidth - this.obj.offsetWidth;
+            var maxT = document.documentElement.clientHeight - this.obj.offsetHeight;
+
+            console.log(top);
+            console.log(left);
+
+            if(left>maxL){
+                left=maxL;
+            }else if(left <= 50){
+                left = 0;
+            } else{}
+
+            if(top >= maxT){
+                top = maxT;
+            }else if(top <= 50){
+                top = 0;
+            }else {}
+
+            this.obj.style.left = left + 'px';
+            this.obj.style.top = top + 'px';
+            console.log(this.obj);
+        };
+        win["Drag"] = Drag;
+        win["LimitDrag"] = LimitDrag;
+    })(window);
+</script>
+<script>
+    var config = {
+        dom:"box",
+        width:"100px",
+        height:"100px",
+        background:"teal"
+    };
+    new Drag(config);
+
+    var config1 = {
+        dom:"box1",
+        width:"100px",
+        height:"100px",
+        background:"red"
+    };
+    new LimitDrag(config1)
+</script>
+</html>
